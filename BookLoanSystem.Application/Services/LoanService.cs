@@ -25,9 +25,11 @@ public class LoanService : ILoanService
     public async Task<IEnumerable<LoanDto>> GetUserLoansAsync(int userId)
     {
         var loans = await _loanRepository.GetLoansByUserIdAsync(userId);
-        return loans.Select(l => new LoanDto
+        return loans
+        .Select(l => new LoanDto
         {
             Id = l.Id,
+            BookTitle = l.book?.Title,
             LoanDate = l.LoanDate,
             ReturnDate = l.ReturnDate
         }).ToList();

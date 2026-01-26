@@ -19,6 +19,7 @@ public class LoanRepository : ILoanRepository
     {
         return await _context.Loans
             .Where(l => l.UserId == userId)
+            .Include(l => l.book)
             .ToListAsync();
     }
 }
