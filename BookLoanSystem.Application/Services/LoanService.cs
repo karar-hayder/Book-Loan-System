@@ -34,5 +34,22 @@ public class LoanService : ILoanService
             ReturnDate = l.ReturnDate
         }).ToList();
     }
+
+    public async Task<LoanDto?> ReturnLoanAsync(int userId,int BookId)
+    {
+        var loan = await _loanRepository.ReturnLoanAsync(userId,BookId);
+        if (loan != null)
+
+        {
+            return new LoanDto
+            {
+                Id = loan.Id,
+                BookTitle = loan.book?.Title,
+                LoanDate = loan.LoanDate,
+                ReturnDate = loan.ReturnDate
+            };
+        }
+        return null;
+    }
 }
 

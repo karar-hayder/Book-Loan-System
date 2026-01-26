@@ -31,4 +31,22 @@ public class LoansController : ControllerBase
         var loanId = await _loanService.CreateLoanAsync(request);
         return CreatedAtAction(nameof(GetUserLoans), new { userId = request.UserId }, loanId);
     }
+
+    [HttpPost("return")]
+    public async Task<ActionResult<LoanDto>> ReturnLoan([FromBody] ReturnLoanRequest request)
+    {
+        if (request == null)
+        {
+            return BadRequest();
+        }
+
+        var returnedLoan = await _loanService.ReturnLoanAsync(request.UserId, request.BookId);
+
+        if (returnedLoan == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(returnedLoan);
+    }
 }

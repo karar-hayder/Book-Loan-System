@@ -22,4 +22,19 @@ public class LoanRepository : ILoanRepository
             .Include(l => l.book)
             .ToListAsync();
     }
+
+    public async Task<Loan?> ReturnLoanAsync(int userId, int BookId)
+    {
+        var loan = await _context.Loans
+        .Where(l => l.UserId == userId & l.BookId == BookId)
+        .FirstOrDefaultAsync();
+
+        if (loan == null)
+        {
+            return null;
+        }
+        loan.ReturnDate = DateTime.Now;
+        await _context.SaveChangesAsync();
+        return loan;
+    }
 }
