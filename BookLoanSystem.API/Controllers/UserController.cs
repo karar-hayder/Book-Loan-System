@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
 [Route("[controller]")]
-class UserController : ControllerBase
+public class UserController : ControllerBase
 {
     private readonly IUserService _userService;
 
