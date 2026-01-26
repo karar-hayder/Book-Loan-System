@@ -56,3 +56,4 @@ CodeCoverage/
 TestResult.xml
 nunit-*.xml
 BookLoanSystem.API/bookloansystem.db
+".vscode/" 
