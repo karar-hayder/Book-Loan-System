@@ -1,0 +1,7 @@
+using System;
+
+public interface IAuditable
+{
+    string? Changes { get; set; }
+    DateTime? UpdatedAt { get; set; }
+}
