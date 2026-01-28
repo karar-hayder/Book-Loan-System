@@ -25,7 +25,8 @@ public class AuditLoggingMiddleware
         {
             _logger.LogInformation("Authenticated user id: {UserId} performed request to {Path}", userId, requestPath);
         }
-        context.Response.OnStarting(() => {
+        context.Response.OnStarting(() =>
+        {
             context.Response.Headers.Append("X-Audit-Logged", "true");
             return Task.CompletedTask;
         });

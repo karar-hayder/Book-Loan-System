@@ -4,7 +4,7 @@ public class BookRepository : IBookRepository
 {
     private readonly BookLoanSystemDbContext _context;
 
-    public BookRepository(BookLoanSystemDbContext context) 
+    public BookRepository(BookLoanSystemDbContext context)
     {
         _context = context;
     }

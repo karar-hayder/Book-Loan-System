@@ -30,14 +30,14 @@ public class BookService : IBookService
         }
         return null;
     }
-    
-    public async Task<IEnumerable<BookDto>> GetBooksAsync() 
+
+    public async Task<IEnumerable<BookDto>> GetBooksAsync()
     {
         var books = await _bookRepository.GetBooksAsync();
         return books.Select(b => new BookDto
         {
             Id = b.Id,
-            Title= b.Title
+            Title = b.Title
         }).ToList();
     }
 

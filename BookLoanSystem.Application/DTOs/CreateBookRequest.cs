@@ -5,5 +5,5 @@ public class CreateBookRequest
     [Required]
     [MinLength(3)]
     [MaxLength(512)]
-    public required string Title {get;set;}
+    public required string Title { get; set; }
 }

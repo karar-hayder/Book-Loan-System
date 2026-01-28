@@ -1,4 +1,4 @@
-public class ReturnLoanRequest 
+public class ReturnLoanRequest
 {
-    public int LoanId {get;set;}
+    public int LoanId { get; set; }
 }
