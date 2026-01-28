@@ -11,10 +11,19 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(u => u.Name)
             .IsRequired();
 
+        builder.Property(u => u.Email)
+            .IsRequired();
+
+        builder.Property(u => u.PasswordHash)
+            .IsRequired();
+
+        builder.Property(u => u.Role)
+            .HasDefaultValue(Role.Customer)
+            .HasConversion<int>();
+
         builder.HasMany(u => u.Loans)
             .WithOne()
             .HasForeignKey("UserId")
             .OnDelete(DeleteBehavior.Cascade);
     }
 }
-

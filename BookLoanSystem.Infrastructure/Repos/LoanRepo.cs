@@ -18,22 +18,23 @@ public class LoanRepository : ILoanRepository
     public async Task<IEnumerable<Loan>> GetLoansByUserIdAsync(int userId)
     {
         return await _context.Loans
-            .Where(l => l.UserId == userId)
+            .Where(l => l.User_Id == userId)
             .Include(l => l.book)
             .ToListAsync();
     }
 
-    public async Task<Loan?> ReturnLoanAsync(int userId, int BookId)
+    public async Task<Loan?> ReturnLoanAsync(int loanId)
     {
         var loan = await _context.Loans
-        .Where(l => l.UserId == userId & l.BookId == BookId)
-        .FirstOrDefaultAsync();
+            .Include(l => l.book)
+            .FirstOrDefaultAsync(l => l.Id == loanId);
 
         if (loan == null)
         {
             return null;
         }
-        loan.ReturnDate = DateTime.Now;
+
+        loan.ReturnDate = DateTime.UtcNow;
         await _context.SaveChangesAsync();
         return loan;
     }

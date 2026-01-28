@@ -14,12 +14,12 @@ public class LoanConfiguration : IEntityTypeConfiguration<Loan>
 
         builder.HasOne<User>()
             .WithMany(u => u.Loans)
-            .HasForeignKey(l => l.UserId)
+            .HasForeignKey(l => l.User_Id)
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasOne<Book>()
             .WithMany(b => b.Loans)
-            .HasForeignKey(l => l.BookId)
+            .HasForeignKey(l => l.Book_Id)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }

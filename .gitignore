@@ -55,5 +55,11 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
-BookLoanSystem.API/bookloansystem.db
-".vscode/" 
+
+*.db*
+.vscode/*
+*/Migrations/*
+.devdbrc
+BookLoanSystem.Infrastructure/Migrations/20260122020011_InitialCreate.cs
+BookLoanSystem.Infrastructure/Migrations/20260122020011_InitialCreate.Designer.cs
+BookLoanSystem.Infrastructure/Migrations/BookLoanSystemDbContextModelSnapshot.cs
