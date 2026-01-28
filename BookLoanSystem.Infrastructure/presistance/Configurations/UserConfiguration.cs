@@ -18,7 +18,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .IsRequired();
 
         builder.Property(u => u.Role)
-            .HasDefaultValue(Role.Customer)
+            .HasDefaultValue(RoleEnum.Customer)
             .HasConversion<int>();
 
         builder.HasMany(u => u.Loans)

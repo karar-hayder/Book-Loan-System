@@ -91,14 +91,15 @@ public class AuthController : ControllerBase
                 Email = request.Email,
                 Name = request.Name,
                 PasswordHash = passwordHash,
-                Role = Role.Customer
+                Role = request.Role
             };
 
             var userId = await _userService.CreateUserAsync(new CreateUserRequest
             {
                 Email = request.Email,
                 Name = request.Name,
-                PasswordHash = passwordHash
+                PasswordHash = passwordHash,
+                Role = request.Role
             });
 
             _logger.LogInformation("User registered successfully: {Email}", request.Email);

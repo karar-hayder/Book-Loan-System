@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-public enum Role
+public enum RoleEnum
 {
     Admin,
     Customer
@@ -18,7 +18,7 @@ public class User : IAuditable, ISoftDeletable
     [Required]
     public string PasswordHash { get; set; } = string.Empty;
 
-    public Role Role { get; set; } = Role.Customer;
+    public RoleEnum Role { get; set; } = RoleEnum.Customer;
 
     [Required]
     public string Name { get; set; } = string.Empty;

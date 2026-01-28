@@ -12,4 +12,6 @@ public class CreateUserRequest
 
     [Required]
     public required string PasswordHash { get; set; }
+
+    public RoleEnum Role { get; set; }
 }

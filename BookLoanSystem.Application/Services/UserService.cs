@@ -14,7 +14,8 @@ public class UserService : IUserService
         {
             Name = request.Name,
             Email = request.Email,
-            PasswordHash = request.PasswordHash
+            PasswordHash = request.PasswordHash,
+            Role = request.Role
         };
         await _userRepository.AddAsync(user);
         return user.Id;
