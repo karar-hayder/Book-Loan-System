@@ -1,7 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 [ApiController]
 [Route("[controller]")]
+[Authorize]
 public class LoansController : ControllerBase
 {
     private readonly ILoanService _loanService;
@@ -11,15 +14,19 @@ public class LoansController : ControllerBase
         _loanService = loanService;
     }
 
-    // GET /loans/user/{userId}
-    [HttpGet("user/{userId}")]
-    public async Task<ActionResult<IEnumerable<LoanDto>>> GetUserLoans(int userId)
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<LoanDto>>> GetUserLoans()
     {
+        int userId;
+        if (!int.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out userId))
+        {
+            return Unauthorized();
+        }
+
         var loans = await _loanService.GetUserLoansAsync(userId);
         return Ok(loans);
     }
 
-    // POST /loans
     [HttpPost]
     public async Task<ActionResult<int>> CreateLoan([FromBody] CreateLoanRequest request)
     {
@@ -28,8 +35,15 @@ public class LoansController : ControllerBase
             return BadRequest();
         }
 
+        int userId;
+        if (!int.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out userId))
+        {
+            return Unauthorized();
+        }
+        request.UserId = userId;
+
         var loanId = await _loanService.CreateLoanAsync(request);
-        return CreatedAtAction(nameof(GetUserLoans), new { userId = request.UserId }, loanId);
+        return CreatedAtAction(nameof(GetUserLoans), null, loanId);
     }
 
     [HttpPost("return")]
@@ -40,7 +54,13 @@ public class LoansController : ControllerBase
             return BadRequest();
         }
 
-        var returnedLoan = await _loanService.ReturnLoanAsync(request.UserId, request.BookId);
+        int userId;
+        if (!int.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out userId))
+        {
+            return Unauthorized();
+        }
+
+        var returnedLoan = await _loanService.ReturnLoanAsync(request);
 
         if (returnedLoan == null)
         {
