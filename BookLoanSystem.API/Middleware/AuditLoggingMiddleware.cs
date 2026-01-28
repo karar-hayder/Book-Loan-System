@@ -13,6 +13,9 @@ public class AuditLoggingMiddleware
     {
         var requestPath = context.Request.Path;
         var requestTime = DateTime.UtcNow;
+
+        var stopwatch = System.Diagnostics.Stopwatch.StartNew();
+
         Console.WriteLine($"[Audit] {requestTime:O} - Request Path: {requestPath}");
 
         string? userId = null;
@@ -25,12 +28,19 @@ public class AuditLoggingMiddleware
         {
             _logger.LogInformation("Authenticated user id: {UserId} performed request to {Path}", userId, requestPath);
         }
+
         context.Response.OnStarting(() =>
         {
-            context.Response.Headers.Append("X-Audit-Logged", "true");
+            context.Response.Headers["X-Audit-Logged"] = "true";
             return Task.CompletedTask;
         });
 
         await _next(context);
+
+        stopwatch.Stop();
+        var responseTimeMs = stopwatch.ElapsedMilliseconds;
+        _logger.LogInformation("Request to {Path} completed in {ResponseTime} ms", requestPath, responseTimeMs);
+
+        Console.WriteLine($"[Audit] Response time for {requestPath}: {responseTimeMs} ms");
     }
 }
