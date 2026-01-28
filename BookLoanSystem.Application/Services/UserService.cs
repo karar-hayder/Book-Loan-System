@@ -12,7 +12,9 @@ public class UserService : IUserService
     {
         var user = new User
         {
-            Name = request.Name
+            Name = request.Name,
+            Email = request.Email,
+            PasswordHash = request.PasswordHash
         };
         await _userRepository.AddAsync(user);
         return user.Id;
@@ -32,6 +34,12 @@ public class UserService : IUserService
         }
         return null;
     }
+
+    public async Task<User?> GetUserByEmailAsync(string email)
+    {
+        return await _userRepository.GetUserByEmailAsync(email);
+    }
+
     public async Task<IEnumerable<UserDto>> GetUsersAsync()
     {
         var users = await _userRepository.GetUsersAsync();

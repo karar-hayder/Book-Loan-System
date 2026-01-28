@@ -12,8 +12,8 @@ public class LoanService : ILoanService
     {
         var loan = new Loan
         {
-            UserId = request.UserId,
-            BookId = request.BookId,
+            User_Id = request.UserId,
+            Book_Id = request.BookId,
             LoanDate = DateTime.UtcNow,
             ReturnDate = null
         };
@@ -35,9 +35,9 @@ public class LoanService : ILoanService
         }).ToList();
     }
 
-    public async Task<LoanDto?> ReturnLoanAsync(int userId,int BookId)
+    public async Task<LoanDto?> ReturnLoanAsync(ReturnLoanRequest request)
     {
-        var loan = await _loanRepository.ReturnLoanAsync(userId,BookId);
+        var loan = await _loanRepository.ReturnLoanAsync(request.LoanId);
         if (loan != null)
 
         {
